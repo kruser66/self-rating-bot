@@ -12,7 +12,6 @@ from services.messages import (
     bye_message,
     result_message
 )
-from services.tg_logging_handler import TelegramgLoggingHandler
 
 
 logger = logging.getLogger('self-rating-bot')
@@ -21,7 +20,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-# logger.addHandler(TelegramgLoggingHandler(bot, config.LOGGING_ID))
+
 logger.info('Запущен чат-бот "Самооценка"')
 
 bot = TeleBot(config.BOT_TOKEN)
