@@ -7,7 +7,17 @@ def start_keyboard():
         [
             [
                 InlineKeyboardButton('Начать', callback_data='ask_questions_0'),
-                InlineKeyboardButton('Не хочу', callback_data='cancel')
+            ],
+            [
+                InlineKeyboardButton('Телеграм', url='https://t.me/somagenes'),
+                InlineKeyboardButton('ВKонтакте', url='https://vk.com/somagenes'),
+                InlineKeyboardButton('TenChat', url='https://tenchat.ru/somagenez'),
+            ],
+            [
+                InlineKeyboardButton('Записаться на консультацию', callback_data='make_appointment')
+            ],
+            [
+                InlineKeyboardButton('Выход', callback_data='cancel')
             ],
         ]
     )
@@ -17,9 +27,17 @@ def cancel_keyboard():
     '''inline клавиатура при окончании работы'''
     return  InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton('До свидания', callback_data='cancel')],
+            [
+                InlineKeyboardButton('Телеграм', url='https://t.me/somagenes'),
+                InlineKeyboardButton('ВKонтакте', url='https://vk.com/somagenes'),
+                InlineKeyboardButton('TenChat', url='https://tenchat.ru/somagenez'),
+            ],
+            [
+                InlineKeyboardButton('Записаться на консультацию', callback_data='make_appointment')
+            ],
         ]
     )
+
 
 def answers_keyboard():
     '''Основая inline клавиатера для ответов '''
@@ -33,7 +51,9 @@ def answers_keyboard():
                 InlineKeyboardButton('4️⃣', callback_data='ask_questions_3'),
                 InlineKeyboardButton('5️⃣', callback_data='ask_questions_4'),
             ],
-            [InlineKeyboardButton('Закончить', callback_data='cancel')],
+            [
+                InlineKeyboardButton('Выход', callback_data='cancel')
+            ],
 
         ]
     )

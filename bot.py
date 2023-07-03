@@ -90,7 +90,15 @@ def cancel(call):
 
     bot.send_message(
         chat_id=call.from_user.id,
-        text=bye_message(), 
+        text=bye_message(),
+        reply_markup=cancel_keyboard() 
     )
+
+
+@bot.callback_query_handler(func=lambda call: call.data=='make_appointment')
+def make_appointment(call):
+
+    bot.answer_callback_query(call.id, 'Ваша заявка принята. Администратор с Вами свяжется в ближайшее время.')
+    logging.info(f'Пользователь: {call.from_user.id} - заявка на консультацию')
 
 bot.infinity_polling()
