@@ -10,7 +10,8 @@ from services.messages import (
     welcome_message,
     fetch_questions,
     bye_message,
-    result_message
+    result_message,
+    formatted_question
 )
 
 
@@ -70,7 +71,7 @@ def ask_questions(call):
             bot.edit_message_text(
                 chat_id=call.from_user.id,
                 message_id=call.message.id,
-                text=next(data['questions']), 
+                text=formatted_question(next(data['questions'])), 
                 reply_markup=answers_keyboard()
             )
         except StopIteration:

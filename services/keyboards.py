@@ -5,8 +5,10 @@ def start_keyboard():
     '''Стартовая inline клавиатура'''
     return  InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton('Начать', callback_data='ask_questions_0')],
-            [InlineKeyboardButton('Не хочу', callback_data='cancel')],
+            [
+                InlineKeyboardButton('Начать', callback_data='ask_questions_0'),
+                InlineKeyboardButton('Не хочу', callback_data='cancel')
+            ],
         ]
     )
 
@@ -25,14 +27,12 @@ def answers_keyboard():
         row_width=2,
         keyboard=[
             [
-                InlineKeyboardButton('Никогда', callback_data='ask_questions_0'),
-                InlineKeyboardButton('Редко', callback_data='ask_questions_1')
+                InlineKeyboardButton('1️⃣', callback_data='ask_questions_0'),
+                InlineKeyboardButton('2️⃣', callback_data='ask_questions_1'),
+                InlineKeyboardButton('3️⃣', callback_data='ask_questions_2'),
+                InlineKeyboardButton('4️⃣', callback_data='ask_questions_3'),
+                InlineKeyboardButton('5️⃣', callback_data='ask_questions_4'),
             ],
-            [
-                InlineKeyboardButton('Иногда', callback_data='ask_questions_2'),
-                InlineKeyboardButton('Часто', callback_data='ask_questions_3')
-            ],
-            [InlineKeyboardButton('Очень часто', callback_data='ask_questions_4')],
             [InlineKeyboardButton('Закончить', callback_data='cancel')],
 
         ]
