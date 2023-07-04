@@ -101,4 +101,11 @@ def make_appointment(call):
     bot.answer_callback_query(call.id, 'Ваша заявка принята. Администратор с Вами свяжется в ближайшее время.')
     logging.info(f'Пользователь: {call.from_user.id} - заявка на консультацию')
 
-bot.infinity_polling()
+if config.DEV:
+    bot.infinity_polling()
+else: 
+    bot.run_webhooks(
+        listen='127.0.0.1',
+        port=5050
+    )
+
