@@ -106,6 +106,8 @@ if config.DEV:
 else: 
     bot.run_webhooks(
         listen='127.0.0.1',
-        port=5050
+        port=5050,
+        url_path=config.BOT_TOKEN,
+        webhook_url=f'https://kruser.site/{config.BOT_TOKEN}',
     )
 
