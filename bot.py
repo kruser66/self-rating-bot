@@ -1,6 +1,6 @@
 import logging
 
-from telebot import TeleBot, custom_filters
+from telebot import TeleBot, custom_filters, types
 from telebot.handler_backends import State, StatesGroup
 from telebot.storage import StateMemoryStorage
 
@@ -101,13 +101,34 @@ def make_appointment(call):
     bot.answer_callback_query(call.id, 'Ваша заявка принята. Администратор с Вами свяжется в ближайшее время.')
     logging.info(f'Пользователь: {call.from_user.id} - заявка на консультацию')
 
+
 if config.DEV:
     bot.infinity_polling()
-else: 
-    bot.run_webhooks(
-        listen='127.0.0.1',
-        port=5050,
-        url_path=config.BOT_TOKEN,
-        webhook_url=f'https://kruser.site/{config.BOT_TOKEN}',
+
+else:
+    
+    import fastapi
+    import uvicorn
+    app = fastapi.FastAPI(docs=None, redoc_url=None)
+
+
+    @app.post(f'/{config.BOT_TOKEN}/')
+    def process_webhook(update: dict):
+        if update:
+            update = types.Update.de_json(update)
+            bot.process_new_updates([update])
+        else:
+            return 
+
+    bot.remove_webhook()
+
+    bot.set_webhook(
+        url=f'https://kruser.site/{config.BOT_TOKEN}',
     )
+
+    uvicorn.run(
+        app,
+        host='127.0.0.1',
+        port=5050,
+    ) 
 
