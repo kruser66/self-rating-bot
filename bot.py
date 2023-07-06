@@ -5,6 +5,7 @@ from telebot.handler_backends import State, StatesGroup
 from telebot.storage import StateMemoryStorage
 
 import services.config as config
+from services.tg_logging_handler import TelegramgLoggingHandler
 from services.keyboards import start_keyboard, answers_keyboard, cancel_keyboard
 from services.messages import (
     welcome_message,
@@ -20,8 +21,12 @@ logger = logging.getLogger('self-rating-bot')
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    level=logging.DEBUG
 )
+tg_log = logger.addHandler(
+    TelegramgLoggingHandler(config.BOT_TOKEN, config.LOGGING_ID)
+)
+tg_log.setLevel(logging.INFO)
 
 logger.info('Запущен чат-бот "Самооценка"')
 
@@ -48,7 +53,7 @@ def display_user(from_user):
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):  
 
-    logging.info(f'Пользователь: {display_user(message.from_user)} открыл бот.')
+    logging.debug(f'Пользователь: {display_user(message.from_user)} открыл бот.')
 
     bot.send_message(
         chat_id=message.chat.id,
@@ -73,7 +78,7 @@ def ask_questions(call):
     with bot.retrieve_data(call.from_user.id, call.from_user.id) as data:
         
         if data['state'] == 'start':
-            logging.info(f'Пользователь: {display_user(call.from_user)} - начал тест')
+            logging.debug(f'Пользователь: {display_user(call.from_user)} - начал тест')
             data['state'] = 'process'
         
         data['total_points'] += point
