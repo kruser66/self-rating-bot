@@ -21,20 +21,20 @@ logger = logging.getLogger('self-rating-bot')
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.DEBUG
+    level=logging.INFO
 )
-tg_log = logger.addHandler(
-    TelegramgLoggingHandler(config.BOT_TOKEN, config.LOGGING_ID)
-)
-tg_log.setLevel(logging.INFO)
-
-logger.info('Запущен чат-бот "Самооценка"')
 
 bot = TeleBot(
     token=config.BOT_TOKEN,
     parse_mode='HTML',
     skip_pending=True
 )
+
+tg_log = TelegramgLoggingHandler(bot, config.LOGGING_ID)
+tg_log.setLevel(logging.INFO)
+logger.addHandler(tg_log) 
+
+logger.info('Запущен чат-бот "Самооценка"')
 
 # Initial working with States
 state_storage = StateMemoryStorage()
@@ -53,7 +53,7 @@ def display_user(from_user):
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):  
 
-    logging.debug(f'Пользователь: {display_user(message.from_user)} открыл бот.')
+    logging.info(f'Пользователь: {display_user(message.from_user)} открыл бот.')
 
     bot.send_message(
         chat_id=message.chat.id,
@@ -78,7 +78,7 @@ def ask_questions(call):
     with bot.retrieve_data(call.from_user.id, call.from_user.id) as data:
         
         if data['state'] == 'start':
-            logging.debug(f'Пользователь: {display_user(call.from_user)} - начал тест')
+            logging.info(f'Пользователь: {display_user(call.from_user)} - начал тест')
             data['state'] = 'process'
         
         data['total_points'] += point
@@ -98,8 +98,7 @@ def ask_questions(call):
                 text=result_message(total_points),
                 reply_markup=cancel_keyboard()
             )
-            logging.info(f'Результат: {display_user(call.from_user)} - {total_points}')
-            bot.delete_state(call.from_user.id, call.from_user.id)     
+            logger.info(f'Результат: {display_user(call.from_user)} - {total_points}') 
 
    
 @bot.callback_query_handler(func=lambda call: call.data=='cancel')
@@ -117,7 +116,7 @@ def cancel(call):
 def make_appointment(call):
 
     bot.answer_callback_query(call.id, 'Ваша заявка принята. Администратор с Вами свяжется в ближайшее время.')
-    logging.info(f'Пользователь: {display_user(call.from_user)} - заявка на консультацию')
+    logger.info(f'Пользователь: {display_user(call.from_user)} - заявка на консультацию')
 
 
 if config.DEV:
