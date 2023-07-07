@@ -13,7 +13,6 @@ from services.messages import (
     bye_message,
     result_message,
     formatted_question_with_answers,
-    crash_message
 )
 
 
@@ -30,9 +29,10 @@ bot = TeleBot(
     skip_pending=True
 )
 
-tg_log = TelegramgLoggingHandler(bot, config.LOGGING_ID)
-tg_log.setLevel(logging.INFO)
-logger.addHandler(tg_log) 
+if config.LOGGING_ID:
+    tg_log = TelegramgLoggingHandler(bot, config.LOGGING_ID)
+    tg_log.setLevel(logging.INFO)
+    logger.addHandler(tg_log) 
 
 logger.info('Запущен чат-бот "Самооценка"')
 
@@ -140,12 +140,12 @@ else:
     bot.remove_webhook()
 
     bot.set_webhook(
-        url=f'https://kruser.site/{config.BOT_TOKEN}',
+        url=config.URL_WEBHOOK,
     )
 
     uvicorn.run(
         app,
         host='127.0.0.1',
-        port=5050,
+        port={config.PORT},
     ) 
 

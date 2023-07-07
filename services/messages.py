@@ -4,7 +4,12 @@ from telebot.formatting import format_text, hitalic, hbold
 
 
 def fetch_questions(filename='files/self-rating.txt'):
-    '''Получаем список вопросов из файла txt'''    
+    '''
+        Получаем список вопросов из файла txt.
+        Структура:
+        1. Вопрос № 1
+        2. Вопрос № 2
+    '''    
     with open(filename, 'r', encoding='utf-8') as f:
         questions = f.readlines()
         
@@ -12,7 +17,7 @@ def fetch_questions(filename='files/self-rating.txt'):
 
 
 def fetch_data_from_yaml(filename):
-    '''Получаем список вопросов с ответами из файла yaml'''
+    '''Получаем данные из файла yaml'''
     with open(filename, 'r', encoding='utf-8') as f:
         questions = f.read()
         
@@ -40,7 +45,7 @@ def welcome_message():
 
 
 def formatted_question(question):
-    '''Для вопосов с однотипными ответами'''
+    '''Сообщение для вопросов с однотипными ответами для всего опросника'''
     return format_text(
         hitalic('Выберите один из вариантов ответов:'),
         '1️⃣ - Никогда',
@@ -55,7 +60,7 @@ def formatted_question(question):
 
 
 def formatted_question_with_answers(question, answers):
-    
+    '''Сообщение для вопросов с разными ответами  для каждого вопроса'''
     emodji_numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣']
     
     answers_with_emodji = ''
@@ -85,7 +90,7 @@ def bye_message():
 def crash_message():
     
     return format_text(
-        'Что-то пощло не так ☹️',
+        'Что-то пошло не так ☹️',
         '\n',
         'Попробуйте начать сначала /start',
         '\n',
