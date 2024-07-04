@@ -1,7 +1,7 @@
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-social_link =  [
+social_link = [
     InlineKeyboardButton('Телеграм', url='https://t.me/somagenes'),
     InlineKeyboardButton('ВKонтакте', url='https://vk.com/somagenes'),
     InlineKeyboardButton('TenChat', url='https://tenchat.ru/somagenez'),
@@ -10,7 +10,7 @@ social_link =  [
 
 def start_keyboard():
     '''Стартовая inline клавиатура'''
-    return  InlineKeyboardMarkup(
+    return InlineKeyboardMarkup(
         [
             [InlineKeyboardButton('Начать', callback_data='ask_questions_0'),],
             social_link,
@@ -22,7 +22,7 @@ def start_keyboard():
 
 def cancel_keyboard():
     '''inline клавиатура при окончании работы'''
-    return  InlineKeyboardMarkup(
+    return InlineKeyboardMarkup(
         [
             social_link,
             [InlineKeyboardButton('Записаться на консультацию', callback_data='make_appointment')],
@@ -31,7 +31,7 @@ def cancel_keyboard():
 
 
 def answers_keyboard():
-    '''Основая inline клавиатера для ответов '''
+    '''Основная inline клавиатура для ответов '''
     return InlineKeyboardMarkup(
         row_width=2,
         keyboard=[
@@ -45,4 +45,3 @@ def answers_keyboard():
 
         ]
     )
-    

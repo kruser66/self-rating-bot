@@ -9,10 +9,10 @@ def fetch_questions(filename='files/self-rating.txt'):
         Структура:
         1. Вопрос № 1
         2. Вопрос № 2
-    '''    
+    '''
     with open(filename, 'r', encoding='utf-8') as f:
         questions = f.readlines()
-        
+
     return questions
 
 
@@ -20,26 +20,25 @@ def fetch_data_from_yaml(filename):
     '''Получаем данные из файла yaml'''
     with open(filename, 'r', encoding='utf-8') as f:
         questions = f.read()
-        
+
     return list(yaml.load_all(questions, Loader=yaml.Loader))
- 
 
 
 def welcome_message():
-    return  dedent(
-            """        
+    return dedent(
+            """
             Привет, хочешь узнать свою самооценку?
-            
+
             * 15 вопросов и 4 варианта ответов.
-            
+
             * Будьте максимально честны с собой.
-            
+
             -----
-            Разработано 
+            Разработано
             для Центра нестандартной психологии
             "Сомагенез"
-            
-            PS: Ищите и читайте нас в социальных сетях.            
+
+            PS: Ищите и читайте нас в социальных сетях.
             """
         )
 
@@ -53,7 +52,7 @@ def formatted_question(question):
         '3️⃣ - Иногда',
         '4️⃣ - Часто',
         '5️⃣ - Очень часто',
-        '\n',        
+        '\n',
         hitalic('Вопрос:'),
         question,
     )
@@ -62,12 +61,12 @@ def formatted_question(question):
 def formatted_question_with_answers(question, answers):
     '''Сообщение для вопросов с разными ответами  для каждого вопроса'''
     emodji_numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣']
-    
+
     answers_with_emodji = ''
     for emodji, answer in zip(emodji_numbers, answers):
         answers_with_emodji += f'{emodji} - {answer}\n'
-    
-    return format_text(            
+
+    return format_text(
         hitalic('Вопрос:'),
         question,
         '\n',
@@ -78,7 +77,7 @@ def formatted_question_with_answers(question, answers):
 
 
 def bye_message():
-    
+
     return format_text(
         'До скорых встреч и всего наилучшего!',
         '\n',
@@ -88,7 +87,7 @@ def bye_message():
 
 
 def crash_message():
-    
+
     return format_text(
         'Что-то пошло не так ☹️',
         '\n',
@@ -101,11 +100,11 @@ def crash_message():
 def result_message(total_point):
 
     rating_results = fetch_data_from_yaml(filename='files/self-rating-total.yaml')
-    
+
     for rating in rating_results:
         min_rate, max_rate = rating['rating']
         if total_point in range(min_rate, max_rate + 1):
-            
+
             return format_text(
                 'Спасибо, что прошли опросник до конца!',
                 '\n'
